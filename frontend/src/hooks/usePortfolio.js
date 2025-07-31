@@ -53,9 +53,9 @@ const transformPortfolioData = (backendData) => {
         status: data.personal_info?.status?.pt || "Disponível para estágio"
       },
       contact: {
-        email: data.personal_info?.contact?.email || "pedro.gomes@exemplo.com",
-        linkedin: data.personal_info?.contact?.linkedin || "https://linkedin.com/in/pedrogomes",
-        github: data.personal_info?.contact?.github || "https://github.com/pedrogomes"
+        email: data.personal_info?.contact?.email || "pedroballario@gmail.com",
+        linkedin: data.personal_info?.contact?.linkedin || "https://www.linkedin.com/in/pedro-gomes-ba4825354",
+        github: data.personal_info?.contact?.github || "https://github.com/gomesdev1"
       },
       skills: transformedSkills,
       education: transformedEducation,
