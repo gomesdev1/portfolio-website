@@ -6,14 +6,21 @@ from models.portfolio import (
 import os
 import asyncio
 from datetime import datetime
+from dotenv import load_dotenv
+from pathlib import Path
 
 async def seed_database():
     """Seed database with initial portfolio data"""
     
+    # Load environment variables
+    ROOT_DIR = Path(__file__).parent
+    load_dotenv(ROOT_DIR / '.env')
+    
     # Database connection
     mongo_url = os.environ['MONGO_URL']
+    db_name = os.environ['DB_NAME']
     client = AsyncIOMotorClient(mongo_url)
-    db = client[os.environ['DB_NAME']]
+    db = client[db_name]
     
     print("🌱 Starting database seeding...")
     
