@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from pydantic import BaseModel, Field, ConfigDict
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from bson import ObjectId
 
@@ -15,8 +15,9 @@ class PyObjectId(ObjectId):
         return ObjectId(v)
 
     @classmethod
-    def __modify_schema__(cls, field_schema):
+    def __get_pydantic_json_schema__(cls, field_schema: Dict[str, Any]) -> Dict[str, Any]:
         field_schema.update(type="string")
+        return field_schema
 
 class MultiLanguageField(BaseModel):
     pt: str
@@ -28,6 +29,12 @@ class ContactInfo(BaseModel):
     github: str
 
 class PersonalInfo(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     name: str
     title: MultiLanguageField
@@ -39,21 +46,22 @@ class PersonalInfo(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
-
 class PersonalInfoUpdate(BaseModel):
-    name: Optional[str]
-    title: Optional[MultiLanguageField]
-    subtitle: Optional[MultiLanguageField]
-    description: Optional[MultiLanguageField]
-    location: Optional[str]
-    status: Optional[MultiLanguageField]
-    contact: Optional[ContactInfo]
+    name: Optional[str] = None
+    title: Optional[MultiLanguageField] = None
+    subtitle: Optional[MultiLanguageField] = None
+    description: Optional[MultiLanguageField] = None
+    location: Optional[str] = None
+    status: Optional[MultiLanguageField] = None
+    contact: Optional[ContactInfo] = None
 
 class Skill(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     category: MultiLanguageField
     technologies: List[str]
@@ -62,23 +70,24 @@ class Skill(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
-
 class SkillCreate(BaseModel):
     category: MultiLanguageField
     technologies: List[str]
     order: int = 0
 
 class SkillUpdate(BaseModel):
-    category: Optional[MultiLanguageField]
-    technologies: Optional[List[str]]
-    order: Optional[int]
-    is_active: Optional[bool]
+    category: Optional[MultiLanguageField] = None
+    technologies: Optional[List[str]] = None
+    order: Optional[int] = None
+    is_active: Optional[bool] = None
 
 class Education(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     institution: str
     degree: MultiLanguageField
@@ -88,11 +97,6 @@ class Education(BaseModel):
     is_active: bool = True
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
 
 class EducationCreate(BaseModel):
     institution: str
@@ -102,14 +106,20 @@ class EducationCreate(BaseModel):
     order: int = 0
 
 class EducationUpdate(BaseModel):
-    institution: Optional[str]
-    degree: Optional[MultiLanguageField]
-    period: Optional[str]
-    status: Optional[MultiLanguageField]
-    order: Optional[int]
-    is_active: Optional[bool]
+    institution: Optional[str] = None
+    degree: Optional[MultiLanguageField] = None
+    period: Optional[str] = None
+    status: Optional[MultiLanguageField] = None
+    order: Optional[int] = None
+    is_active: Optional[bool] = None
 
 class Project(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     title: MultiLanguageField
     description: MultiLanguageField
@@ -123,11 +133,6 @@ class Project(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
-
 class ProjectCreate(BaseModel):
     title: MultiLanguageField
     description: MultiLanguageField
@@ -140,39 +145,46 @@ class ProjectCreate(BaseModel):
     order: int = 0
 
 class ProjectUpdate(BaseModel):
-    title: Optional[MultiLanguageField]
-    description: Optional[MultiLanguageField]
-    technologies: Optional[List[str]]
-    github_url: Optional[str]
-    live_url: Optional[str]
-    image_url: Optional[str]
-    status: Optional[str]
-    featured: Optional[bool]
-    order: Optional[int]
+    title: Optional[MultiLanguageField] = None
+    description: Optional[MultiLanguageField] = None
+    technologies: Optional[List[str]] = None
+    github_url: Optional[str] = None
+    live_url: Optional[str] = None
+    image_url: Optional[str] = None
+    status: Optional[str] = None
+    featured: Optional[bool] = None
+    order: Optional[int] = None
 
 class Goal(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     goal: MultiLanguageField
     order: int = 0
     is_active: bool = True
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
-
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
 
 class GoalCreate(BaseModel):
     goal: MultiLanguageField
     order: int = 0
 
 class GoalUpdate(BaseModel):
-    goal: Optional[MultiLanguageField]
-    order: Optional[int]
-    is_active: Optional[bool]
+    goal: Optional[MultiLanguageField] = None
+    order: Optional[int] = None
+    is_active: Optional[bool] = None
 
 class CurrentLearning(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True,
+        json_encoders={ObjectId: str}
+    )
+    
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     item: MultiLanguageField
     order: int = 0
@@ -180,19 +192,14 @@ class CurrentLearning(BaseModel):
     created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
-    class Config:
-        allow_population_by_field_name = True
-        arbitrary_types_allowed = True
-        json_encoders = {ObjectId: str}
-
 class CurrentLearningCreate(BaseModel):
     item: MultiLanguageField
     order: int = 0
 
 class CurrentLearningUpdate(BaseModel):
-    item: Optional[MultiLanguageField]
-    order: Optional[int]
-    is_active: Optional[bool]
+    item: Optional[MultiLanguageField] = None
+    order: Optional[int] = None
+    is_active: Optional[bool] = None
 
 class PortfolioData(BaseModel):
     personal_info: PersonalInfo
