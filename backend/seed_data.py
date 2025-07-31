@@ -51,9 +51,9 @@ async def seed_database():
             en="Available for internship"
         ),
         contact=ContactInfo(
-            email="pedro.gomes@exemplo.com",
-            linkedin="https://linkedin.com/in/pedrogomes",  
-            github="https://github.com/pedrogomes"
+            email="pedroballario@gmail.com",
+            linkedin="https://www.linkedin.com/in/pedro-gomes-ba4825354",  
+            github="https://github.com/gomesdev1"
         )
     )
     
