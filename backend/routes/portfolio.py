@@ -13,8 +13,14 @@ from typing import List
 from bson import ObjectId
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+from pathlib import Path
 
 router = APIRouter()
+
+# Load environment variables
+ROOT_DIR = Path(__file__).parent.parent
+load_dotenv(ROOT_DIR / '.env')
 
 # Database connection
 mongo_url = os.environ['MONGO_URL']
