@@ -1,9 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { mockData } from '../mock/data';
-import { Mail, Github, Linkedin, MapPin, Calendar, Code, GraduationCap, Target, User, Briefcase } from 'lucide-react';
+import { Mail, Github, Linkedin, MapPin, Target, User, Briefcase, Code, GraduationCap, Sun, Moon, Globe } from 'lucide-react';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('sobre');
+  const [language, setLanguage] = useState('pt');
+  const [theme, setTheme] = useState('dark');
+
+  // Initialize theme on component mount
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'pt' ? 'en' : 'pt');
+  };
+
+  const currentData = mockData[language];
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -23,19 +42,38 @@ const Portfolio = () => {
         <div className="container">
           <nav className="nav">
             <div className="header-logo">DEV.PORTFOLIO</div>
-            <div className="nav-menu">
-              <a href="#sobre" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('sobre'); }}>
-                SOBRE
-              </a>
-              <a href="#habilidades" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('habilidades'); }}>
-                HABILIDADES
-              </a>
-              <a href="#projetos" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('projetos'); }}>
-                PROJETOS
-              </a>
-              <a href="#contato" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('contato'); }}>
-                CONTATO
-              </a>
+            <div className="nav-controls">
+              <div className="nav-menu">
+                <a href="#sobre" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('sobre'); }}>
+                  {currentData.navigation.about}
+                </a>
+                <a href="#habilidades" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('habilidades'); }}>
+                  {currentData.navigation.skills}
+                </a>
+                <a href="#projetos" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('projetos'); }}>
+                  {currentData.navigation.projects}
+                </a>
+                <a href="#contato" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('contato'); }}>
+                  {currentData.navigation.contact}
+                </a>
+              </div>
+              <div className="nav-toggles">
+                <button 
+                  className="btn-icon"
+                  onClick={toggleLanguage}
+                  title={language === 'pt' ? 'Switch to English' : 'Mudar para Português'}
+                >
+                  <Globe size={16} />
+                  <span style={{ marginLeft: '4px', fontSize: '10px' }}>{language.toUpperCase()}</span>
+                </button>
+                <button 
+                  className="btn-icon"
+                  onClick={toggleTheme}
+                  title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                >
+                  {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+                </button>
+              </div>
             </div>
           </nav>
         </div>
@@ -45,25 +83,25 @@ const Portfolio = () => {
       <section className="hero">
         <div className="container">
           <div className="hero-content">
-            <div className="label">DESENVOLVEDOR EM FORMAÇÃO</div>
-            <h1 className="hero-title">{mockData.personalInfo.name}</h1>
-            <div className="text-big">{mockData.personalInfo.title}</div>
-            <div className="text-regular">{mockData.personalInfo.subtitle}</div>
+            <div className="label">{currentData.sections.hero.label}</div>
+            <h1 className="hero-title">{currentData.personalInfo.name}</h1>
+            <div className="text-big">{currentData.personalInfo.title}</div>
+            <div className="text-regular">{currentData.personalInfo.subtitle}</div>
             <div className="hero-status">
-              <span className="label-small">{mockData.personalInfo.status}</span>
+              <span className="label-small">{currentData.personalInfo.status}</span>
             </div>
             <div className="hero-actions">
               <button 
                 className="btn-accent"
                 onClick={() => scrollToSection('contato')}
               >
-                ENTRAR EM CONTATO
+                {currentData.sections.hero.cta1}
               </button>
               <button 
                 className="btn-primary"
                 onClick={() => scrollToSection('sobre')}
               >
-                CONHECER MAIS
+                {currentData.sections.hero.cta2}
               </button>
             </div>
           </div>
@@ -74,28 +112,30 @@ const Portfolio = () => {
       <section id="sobre" className="section">
         <div className="container">
           <div className="section-header">
-            <div className="label">QUEM SOU EU</div>
-            <h2 className="title-big">SOBRE</h2>
+            <div className="label">{currentData.sections.about.label}</div>
+            <h2 className="title-big">{currentData.sections.about.title}</h2>
           </div>
           <div className="about-content">
             <div className="about-text">
-              <p className="text-body">{mockData.personalInfo.description}</p>
+              <p className="text-body">{currentData.personalInfo.description}</p>
               <div className="about-details">
                 <div className="detail-item">
                   <MapPin className="detail-icon" />
-                  <span className="label-small">{mockData.personalInfo.location}</span>
+                  <span className="label-small">{currentData.personalInfo.location}</span>
                 </div>
                 <div className="detail-item">
                   <User className="detail-icon" />
-                  <span className="label-small">AUTODIDATA & DEDICADO</span>
+                  <span className="label-small">
+                    {language === 'pt' ? 'AUTODIDATA & DEDICADO' : 'SELF-TAUGHT & DEDICATED'}
+                  </span>
                 </div>
               </div>
             </div>
             <div className="education-goals">
               <div className="education-section">
                 <div className="card">
-                  <div className="label">FORMAÇÃO</div>
-                  {mockData.education.map((edu, index) => (
+                  <div className="label">{currentData.sections.about.formationTitle}</div>
+                  {currentData.education.map((edu, index) => (
                     <div key={index} className="education-item">
                       <div className="text-regular">{edu.degree}</div>
                       <div className="text-body">{edu.institution}</div>
@@ -106,8 +146,8 @@ const Portfolio = () => {
               </div>
               <div className="goals-section">
                 <div className="card">
-                  <div className="label">OBJETIVOS</div>
-                  {mockData.goals.map((goal, index) => (
+                  <div className="label">{currentData.sections.about.goalsTitle}</div>
+                  {currentData.goals.map((goal, index) => (
                     <div key={index} className="goal-item">
                       <Target className="goal-icon" />
                       <span className="text-body">{goal}</span>
@@ -124,11 +164,11 @@ const Portfolio = () => {
       <section id="habilidades" className="section">
         <div className="container">
           <div className="section-header">
-            <div className="label">CONHECIMENTOS</div>
-            <h2 className="title-big">HABILIDADES</h2>
+            <div className="label">{currentData.sections.skills.label}</div>
+            <h2 className="title-big">{currentData.sections.skills.title}</h2>
           </div>
           <div className="skills-grid">
-            {mockData.skills.map((skillGroup, index) => (
+            {currentData.skills.map((skillGroup, index) => (
               <div key={index} className="card skill-card">
                 <div className="skill-header">
                   <Code className="skill-icon" />
@@ -146,9 +186,9 @@ const Portfolio = () => {
           </div>
           <div className="learning-section">
             <div className="card">
-              <div className="label">ATUALMENTE ESTUDANDO</div>
+              <div className="label">{currentData.sections.skills.currentlyLearning}</div>
               <div className="learning-list">
-                {mockData.currentLearning.map((item, index) => (
+                {currentData.currentLearning.map((item, index) => (
                   <div key={index} className="learning-item">
                     <GraduationCap className="learning-icon" />
                     <span className="text-body">{item}</span>
@@ -164,17 +204,17 @@ const Portfolio = () => {
       <section id="projetos" className="section">
         <div className="container">
           <div className="section-header">
-            <div className="label">PORTFÓLIO</div>
-            <h2 className="title-big">PROJETOS</h2>
+            <div className="label">{currentData.sections.projects.label}</div>
+            <h2 className="title-big">{currentData.sections.projects.title}</h2>
           </div>
           <div className="projects-content">
             <div className="card projects-placeholder">
               <Briefcase className="placeholder-icon" />
-              <div className="text-regular">PROJETOS EM DESENVOLVIMENTO</div>
+              <div className="text-regular">{currentData.sections.projects.placeholder}</div>
               <p className="text-body">
-                Esta seção será preenchida conforme novos projetos forem desenvolvidos durante meus estudos e práticas.
+                {currentData.sections.projects.placeholderDesc}
               </p>
-              <div className="label-small">AGUARDE ATUALIZAÇÕES</div>
+              <div className="label-small">{currentData.sections.projects.waitUpdate}</div>
             </div>
           </div>
         </div>
@@ -184,54 +224,51 @@ const Portfolio = () => {
       <section id="contato" className="section">
         <div className="container">
           <div className="section-header">
-            <div className="label">VAMOS CONVERSAR</div>
-            <h2 className="title-big">CONTATO</h2>
+            <div className="label">{currentData.sections.contact.label}</div>
+            <h2 className="title-big">{currentData.sections.contact.title}</h2>
           </div>
           <div className="contact-content">
             <div className="contact-info">
               <p className="text-body">
-                Estou em busca da minha primeira oportunidade de estágio para aplicar meus conhecimentos e continuar aprendendo.
+                {currentData.sections.contact.description}
               </p>
               <div className="contact-links">
-                <a href={`mailto:${mockData.contact.email}`} className="contact-link">
+                <a href={`mailto:${currentData.contact.email}`} className="contact-link">
                   <Mail className="contact-icon" />
                   <span className="label">EMAIL</span>
-                  <span className="contact-value">{mockData.contact.email}</span>
+                  <span className="contact-value">{currentData.contact.email}</span>
                 </a>
-                <a href={mockData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="contact-link">
+                <a href={currentData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="contact-link">
                   <Linkedin className="contact-icon" />
                   <span className="label">LINKEDIN</span>
-                  <span className="contact-value">Perfil Profissional</span>
+                  <span className="contact-value">
+                    {language === 'pt' ? 'Perfil Profissional' : 'Professional Profile'}
+                  </span>
                 </a>
-                <a href={mockData.contact.github} target="_blank" rel="noopener noreferrer" className="contact-link">
+                <a href={currentData.contact.github} target="_blank" rel="noopener noreferrer" className="contact-link">
                   <Github className="contact-icon" />
                   <span className="label">GITHUB</span>
-                  <span className="contact-value">Repositórios</span>
+                  <span className="contact-value">
+                    {language === 'pt' ? 'Repositórios' : 'Repositories'}
+                  </span>
                 </a>
               </div>
             </div>
             <div className="contact-action">
               <div className="card">
-                <div className="label">DISPONÍVEL PARA</div>
+                <div className="label">{currentData.sections.contact.availableFor}</div>
                 <div className="availability-list">
-                  <div className="availability-item">
-                    <span className="text-body">• Estágio em Desenvolvimento</span>
-                  </div>
-                  <div className="availability-item">
-                    <span className="text-body">• Projetos de Aprendizado</span>
-                  </div>
-                  <div className="availability-item">
-                    <span className="text-body">• Mentorias</span>
-                  </div>
-                  <div className="availability-item">
-                    <span className="text-body">• Networking</span>
-                  </div>
+                  {currentData.sections.contact.availability.map((item, index) => (
+                    <div key={index} className="availability-item">
+                      <span className="text-body">{item}</span>
+                    </div>
+                  ))}
                 </div>
                 <button 
                   className="btn-accent"
-                  onClick={() => window.open(`mailto:${mockData.contact.email}?subject=Oportunidade de Estágio`, '_blank')}
+                  onClick={() => window.open(`mailto:${currentData.contact.email}?subject=${currentData.sections.contact.emailSubject}`, '_blank')}
                 >
-                  ENVIAR EMAIL
+                  {currentData.sections.contact.sendEmail}
                 </button>
               </div>
             </div>
@@ -245,7 +282,9 @@ const Portfolio = () => {
           <div className="footer-content">
             <div className="header-logo">DEV.PORTFOLIO</div>
             <div className="footer-text">
-              <span className="label-small">© 2024 • DESENVOLVIDO COM DEDICAÇÃO</span>
+              <span className="label-small">
+                © 2024 • {language === 'pt' ? 'DESENVOLVIDO COM DEDICAÇÃO' : 'DEVELOPED WITH DEDICATION'}
+              </span>
             </div>
           </div>
         </div>

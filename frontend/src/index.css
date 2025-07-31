@@ -30,11 +30,12 @@ code {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(242, 242, 242, 0.95);
+  background: var(--color-background);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border-light);
   z-index: 1000;
   padding: 16px 0;
+  transition: background-color 0.3s ease;
 }
 
 .nav {
@@ -43,9 +44,21 @@ code {
   align-items: center;
 }
 
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .nav-menu {
   display: flex;
   gap: 32px;
+}
+
+.nav-toggles {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 /* Hero */
@@ -197,12 +210,13 @@ code {
 
 .skill-tag {
   padding: 6px 12px;
-  background: rgba(35, 35, 35, 0.05);
+  background: var(--border-light);
   border: 1px solid var(--border-light);
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  color: var(--text-primary);
 }
 
 .learning-section {
@@ -294,7 +308,7 @@ code {
 
 .contact-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(35, 35, 35, 0.1);
+  box-shadow: 0 4px 20px var(--border-light);
 }
 
 .contact-icon {
@@ -335,11 +349,17 @@ code {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   .nav-menu {
     display: none;
   }
   
+  .nav-controls {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
   .hero-actions {
     flex-direction: column;
   }
@@ -358,6 +378,10 @@ code {
     flex-direction: column;
     gap: 16px;
     text-align: center;
+  }
+  
+  .nav-toggles {
+    gap: 8px;
   }
 }
 
