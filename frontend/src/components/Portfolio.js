@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { mockData } from '../mock/data';
 import { Mail, Github, Linkedin, MapPin, Target, User, Briefcase, Code, GraduationCap, Sun, Moon, Globe } from 'lucide-react';
+import { usePortfolio } from '../hooks/usePortfolio';
+import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorBoundary';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('sobre');
   const [language, setLanguage] = useState('pt');
   const [theme, setTheme] = useState('dark');
+  const [showError, setShowError] = useState(true);
+
+  const { portfolioData, loading, error, isOnline, retry } = usePortfolio();
 
   // Initialize theme on component mount
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
+
+  // Auto-hide error message after 10 seconds
+  useEffect(() => {
+    if (error && !isOnline) {
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, isOnline]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -22,8 +37,6 @@ const Portfolio = () => {
     setLanguage(language === 'pt' ? 'en' : 'pt');
   };
 
-  const currentData = mockData[language];
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -32,10 +45,36 @@ const Portfolio = () => {
     }
   };
 
+  // Show loading spinner while fetching data
+  if (loading) {
+    return <LoadingSpinner message={language === 'pt' ? 'Carregando portfolio...' : 'Loading portfolio...'} />;
+  }
+
+  // Show error if no data is available
+  if (!portfolioData) {
+    return (
+      <div className="error-fallback">
+        <h2>Erro ao carregar portfolio</h2>
+        <button onClick={retry} className="btn-accent">Tentar Novamente</button>
+      </div>
+    );
+  }
+
+  const currentData = portfolioData[language];
+
   return (
     <div className="portfolio">
       {/* Grid Background */}
       <div className="grid-background"></div>
+      
+      {/* Error Message (if backend is offline) */}
+      {error && !isOnline && showError && (
+        <ErrorMessage 
+          error={error} 
+          isOnline={isOnline} 
+          onRetry={retry}
+        />
+      )}
       
       {/* Header */}
       <header className="header">
@@ -135,7 +174,7 @@ const Portfolio = () => {
               <div className="education-section">
                 <div className="card">
                   <div className="label">{currentData.sections.about.formationTitle}</div>
-                  {currentData.education.map((edu, index) => (
+                  {currentData.education?.map((edu, index) => (
                     <div key={index} className="education-item">
                       <div className="text-regular">{edu.degree}</div>
                       <div className="text-body">{edu.institution}</div>
@@ -147,7 +186,7 @@ const Portfolio = () => {
               <div className="goals-section">
                 <div className="card">
                   <div className="label">{currentData.sections.about.goalsTitle}</div>
-                  {currentData.goals.map((goal, index) => (
+                  {currentData.goals?.map((goal, index) => (
                     <div key={index} className="goal-item">
                       <Target className="goal-icon" />
                       <span className="text-body">{goal}</span>
@@ -168,14 +207,14 @@ const Portfolio = () => {
             <h2 className="title-big">{currentData.sections.skills.title}</h2>
           </div>
           <div className="skills-grid">
-            {currentData.skills.map((skillGroup, index) => (
+            {currentData.skills?.map((skillGroup, index) => (
               <div key={index} className="card skill-card">
                 <div className="skill-header">
                   <Code className="skill-icon" />
                   <div className="label">{skillGroup.category}</div>
                 </div>
                 <div className="skill-list">
-                  {skillGroup.technologies.map((tech, techIndex) => (
+                  {skillGroup.technologies?.map((tech, techIndex) => (
                     <span key={techIndex} className="skill-tag">
                       {tech}
                     </span>
@@ -188,7 +227,7 @@ const Portfolio = () => {
             <div className="card">
               <div className="label">{currentData.sections.skills.currentlyLearning}</div>
               <div className="learning-list">
-                {currentData.currentLearning.map((item, index) => (
+                {currentData.currentLearning?.map((item, index) => (
                   <div key={index} className="learning-item">
                     <GraduationCap className="learning-icon" />
                     <span className="text-body">{item}</span>
@@ -258,7 +297,7 @@ const Portfolio = () => {
               <div className="card">
                 <div className="label">{currentData.sections.contact.availableFor}</div>
                 <div className="availability-list">
-                  {currentData.sections.contact.availability.map((item, index) => (
+                  {currentData.sections.contact.availability?.map((item, index) => (
                     <div key={index} className="availability-item">
                       <span className="text-body">{item}</span>
                     </div>
@@ -284,6 +323,11 @@ const Portfolio = () => {
             <div className="footer-text">
               <span className="label-small">
                 © 2024 • {language === 'pt' ? 'DESENVOLVIDO COM DEDICAÇÃO' : 'DEVELOPED WITH DEDICATION'}
+                {!isOnline && (
+                  <span style={{ color: 'var(--color-warning)', marginLeft: '8px' }}>
+                    • {language === 'pt' ? 'MODO DEMO' : 'DEMO MODE'}
+                  </span>
+                )}
               </span>
             </div>
           </div>
