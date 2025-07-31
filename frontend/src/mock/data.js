@@ -1,7 +1,7 @@
 // Mock data para o portfolio
 export const mockData = {
   personalInfo: {
-    name: "SEU NOME",
+    name: "Pedro Gomes",
     title: "Desenvolvedor Fullstack Junior",
     subtitle: "Estudante de Engenharia de Software",
     description: "Cursando Bacharelado em Engenharia de Software (1º semestre) na Universidade Anhaguera, com formação técnica em suporte de TI. Focado em Java, Spring Boot e tecnologias modernas.",
