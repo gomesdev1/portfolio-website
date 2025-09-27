@@ -239,26 +239,6 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projetos" className="section">
-        <div className="container">
-          <div className="section-header">
-            <div className="label">{currentData.sections.projects.label}</div>
-            <h2 className="title-big">{currentData.sections.projects.title}</h2>
-          </div>
-          <div className="projects-content">
-            <div className="card projects-placeholder">
-              <Briefcase className="placeholder-icon" />
-              <div className="text-regular">{currentData.sections.projects.placeholder}</div>
-              <p className="text-body">
-                {currentData.sections.projects.placeholderDesc}
-              </p>
-              <div className="label-small">{currentData.sections.projects.waitUpdate}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section id="contato" className="section">
         <div className="container">
@@ -288,7 +268,7 @@ const Portfolio = () => {
                   <Github className="contact-icon" />
                   <span className="label">GITHUB</span>
                   <span className="contact-value">
-                    {language === 'pt' ? 'Repositórios' : 'Repositories'}
+                    {language === 'pt' ? 'Perfil Profissional' : 'Professional Profile'}
                   </span>
                 </a>
               </div>
@@ -319,10 +299,10 @@ const Portfolio = () => {
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
-            <div className="header-logo">DEV.PORTFOLIO</div>
+            <div className="header-logo">@GomesDev1</div>
             <div className="footer-text">
               <span className="label-small">
-                © 2024 • {language === 'pt' ? 'DESENVOLVIDO COM DEDICAÇÃO' : 'DEVELOPED WITH DEDICATION'}
+                © 2024 • {language === 'pt' ? 'DESENVOLVIDO POR @GomesDev1' : 'DEVELOPED WITH @GomesDev1'}
                 {!isOnline && (
                   <span style={{ color: 'var(--color-warning)', marginLeft: '8px' }}>
                     • {language === 'pt' ? 'MODO DEMO' : 'DEMO MODE'}
