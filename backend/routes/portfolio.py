@@ -283,7 +283,6 @@ async def get_portfolio_data():
             "personal_info": object_id_str(personal_info),
             "skills": [object_id_str(skill) for skill in skills],
             "education": [object_id_str(edu) for edu in education],
-            "projects": [object_id_str(project) for project in projects],
             "goals": [object_id_str(goal) for goal in goals],
             "current_learning": [object_id_str(item) for item in current_learning]
         }

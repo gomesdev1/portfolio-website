@@ -80,7 +80,7 @@ const Portfolio = () => {
       <header className="header">
         <div className="container">
           <nav className="nav">
-            <div className="header-logo">DEV.PORTFOLIO</div>
+            <div className="header-logo">@GomesDev1</div>
             <div className="nav-controls">
               <div className="nav-menu">
                 <a href="#sobre" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('sobre'); }}>
