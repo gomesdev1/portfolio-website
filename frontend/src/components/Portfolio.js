@@ -302,10 +302,10 @@ const Portfolio = () => {
             <div className="header-logo">@GomesDev1</div>
             <div className="footer-text">
               <span className="label-small">
-                © 2024 • {language === 'pt' ? 'DESENVOLVIDO POR @GomesDev1' : 'DEVELOPED WITH @GomesDev1'}
+                © 2024 • {language === 'pt' ? 'DESENVOLVIDO POR @GomesDev1' : 'DEVELOPED BY @GomesDev1'}
                 {!isOnline && (
                   <span style={{ color: 'var(--color-warning)', marginLeft: '8px' }}>
-                    • {language === 'pt' ? 'MODO DEMO' : 'DEMO MODE'}
+                    • {language === 'pt' ? 'MODO' : 'MODE'}
                   </span>
                 )}
               </span>
