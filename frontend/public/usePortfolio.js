@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { portfolioAPI } from '../services/api';
-import { mockData } from '../mock/data';
+import { portfolioAPI } from '../src/services/api';
+import { mockData } from '../src/mock/data';
 
 // Transform backend data to frontend format
 const transformPortfolioData = (backendData) => {

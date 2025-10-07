@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Github, Linkedin, MapPin, Target, User, Briefcase, Code, GraduationCap, Sun, Moon, Globe } from 'lucide-react';
-import { usePortfolio } from '../hooks/usePortfolio';
+import { usePortfolio } from '../../public/usePortfolio';
 import LoadingSpinner from './LoadingSpinner';
 import ErrorMessage from './ErrorBoundary';
 
