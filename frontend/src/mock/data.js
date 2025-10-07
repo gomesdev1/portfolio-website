@@ -4,8 +4,8 @@ export const mockData = {
     personalInfo: {
       name: "Pedro Gomes",
       title: "Desenvolvedor Fullstack Junior",
-      subtitle: "Estudante de Engenharia de Software",
-      description: "Cursando Bacharelado em Engenharia de Software (1º semestre) na Universidade Anhaguera, com formação técnica em suporte de TI. Focado em Java, Spring Boot e tecnologias modernas.",
+      subtitle: "Estudante de Análise e Desenvolvimento de Sistemas",
+      description: "Cursando Tecnólogo em Análise e Desenvolvimento de Sistemas (1º semestre) na Universidade Anhaguera, com formação técnica em suporte de TI. Focado em Java, Spring Boot e tecnologias modernas.",
       location: "Brasil",
       status: "Disponível para estágio"
     },
@@ -39,7 +39,7 @@ export const mockData = {
       {
         institution: "Universidade Anhaguera",
         degree: "Bacharelado em Engenharia de Software",
-        period: "2024 - Em andamento",
+        period: "2025 - Em andamento",
         status: "1º Semestre"
       },
       {
