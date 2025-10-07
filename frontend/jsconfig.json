@@ -5,5 +5,5 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "public/usePortfolio.js"]
+  "include": ["src", "public/Portfolio.js"]
 }
