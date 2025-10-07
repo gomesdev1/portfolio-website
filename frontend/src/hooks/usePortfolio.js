@@ -47,10 +47,10 @@ const transformPortfolioData = (backendData) => {
       personalInfo: {
         name: data.personal_info?.name || "Pedro Gomes",
         title: data.personal_info?.title?.pt || "Desenvolvedor Fullstack Junior",
-        subtitle: data.personal_info?.subtitle?.pt || "Estudante de Engenharia de Software",
+        subtitle: data.personal_info?.subtitle?.pt || "Estudante de Análise e Desenvolvimento de Sistemas",
         description: data.personal_info?.description?.pt || "Desenvolvedor em formação",
         location: data.personal_info?.location || "Brasil",
-        status: data.personal_info?.status?.pt || "Disponível para estágio"
+        status: data.personal_info?.status?.pt || "Disponível para estágio e jr"
       },
       contact: {
         email: data.personal_info?.contact?.email || "pedroballario@gmail.com",
